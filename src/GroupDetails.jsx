@@ -160,7 +160,7 @@ const GroupDetails = ({guid}) => {
   const pickDocument = async () => {
     try {
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
+        type: [DocumentPicker.types.pdf],
       });
       const file = {
         name: res[0].name,
