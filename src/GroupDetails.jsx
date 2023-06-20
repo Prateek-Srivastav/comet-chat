@@ -15,6 +15,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 import {BottomSheet} from 'react-native-btr';
+import PdfViewer from './components/PdfViewer';
 
 const GroupDetails = ({guid}) => {
   const [groupDetails, setGroupDetails] = useState({});
@@ -173,7 +174,7 @@ const GroupDetails = ({guid}) => {
     }
   };
 
-  console.log(messages[messages.length - 1]?.data.attachments[0].url);
+  // console.log(messages[messages.length - 1]?.data.attachments[0].url);
 
   return (
     <View style={{flex: 1}}>
@@ -212,8 +213,8 @@ const GroupDetails = ({guid}) => {
         </View>
       </View>
       <ScrollView>
-        {messages.map(m =>
-          m.data.text ? (
+        {messages.map(m => {
+          return m.data.text ? (
             <View
               style={{
                 padding: 10,
@@ -240,8 +241,7 @@ const GroupDetails = ({guid}) => {
               </Text>
             </View>
           ) : (
-            m.data.attachments &&
-            m.data.attachments[0].url !== '' && (
+            m.data.attachments && m.data.attachments[0].url !== '' && (
               <View
                 style={{
                   backgroundColor: '#fff',
@@ -272,13 +272,20 @@ const GroupDetails = ({guid}) => {
                   }}
                 />
 
-                {/* <Text>
-                  {m.data.attachments ? m.data.attachments[0].url : ''}
-                </Text> */}
+                <Text>
+                  {m.data.attachments[0].extension === 'pdf' ? (
+                    <PdfViewer
+                      name={m.data.attachments[0].name}
+                      url={m.data.attachments[0].url}
+                    />
+                  ) : (
+                    ''
+                  )}
+                </Text>
               </View>
             )
-          ),
-        )}
+          );
+        })}
       </ScrollView>
       <View style={{flexDirection: 'row', marginBottom: 10}}>
         <TextInput
